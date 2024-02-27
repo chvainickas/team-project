@@ -1,0 +1,19 @@
+.logo-text {
+    font-size: 1.5rem; /* Размер текста логотипа */
+    padding-left: 15px; /* Отступ слева для текста логотипа */
+  }
+  
+  .logo-text img {
+    height: 40px; /* Высота логотипа */
+    width: auto; /* Автоматическая ширина для сохранения пропорций */
+    margin-right: 10px; /* Отступ справа от логотипа */
+  }
+  
+  html, body {
+    height: 100%;
+  }
+  
+  .footer {
+    width: 100%;
+  }  
+  
