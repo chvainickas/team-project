@@ -1,0 +1,49 @@
+<div id="chatbox">
+    <div id="messages"></div>
+    <input id="userinput" type="text" placeholder="Type a message...">
+    <button id="sendbutton">Send</button>
+</div>
+<script>
+    const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+    const API_KEY = "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"; // replace with your OpenAI API key
+
+    async function getResponse(message) {
+        try {
+            const response = await fetch(
+                OPENAI_API_URL,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-3.5-turbo",
+                        messages: [
+                            {
+                                role: "system",
+                                content: "Answer like a thoughtful and kind teacher!",
+                            },
+                            {
+                                role: "user",
+                                content: message,
+                            },
+                        ],
+                    })
+                }
+            );
+
+            const data = await response.json();
+            return data.choices[0].message.content;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    document.getElementById('sendbutton').addEventListener('click', async () => {
+        const userinput = document.getElementById('userinput').value;
+        const response = await getResponse(userinput);
+        document.getElementById('messages').innerHTML += `<p>${response}</p>`;
+    });
+</script>
