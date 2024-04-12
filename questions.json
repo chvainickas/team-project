@@ -1,0 +1,277 @@
+[
+  {
+    "question": "Explain the bubble sort algorithm.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "What is the difference between a stack and a queue?",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Define what a linked list is and how it differs from an array.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the concept of time complexity and space complexity in algorithm analysis.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "How does binary search work, and what is its time complexity?",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of recursion and provide an example of a recursive algorithm.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "What is the difference between depth-first search (DFS) and breadth-first search (BFS)?",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Define dynamic programming and provide an example of a problem that can be solved using dynamic programming.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "What is the purpose of the Big O notation in algorithm analysis?",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the process of converting an infix expression to a postfix expression.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of hashing and its applications.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the structure and functionality of a binary tree.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "How does the quicksort algorithm work, and what is its time complexity?",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Define what a graph is and describe different types of graphs.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of a priority queue and provide examples of its applications.",
+    "subject": "Data Structure and Algorithms",
+    "level": "Medium"
+  },
+  {
+    "question": "What is normalization in databases, and why is it important?",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the difference between a primary key and a foreign key.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the ACID properties of database transactions.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "What is a database index, and how does it improve query performance?",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Define the concept of database concurrency control and provide examples of techniques used to achieve it.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the advantages and disadvantages of different types of database models (e.g., relational, NoSQL).",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "What is a database trigger, and how is it used in database management systems?",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of database normalization and provide examples of different normal forms.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the process of database backup and recovery.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "What are stored procedures, and how do they differ from regular database queries?",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Discuss the role of transactions in database management systems.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of database replication and its benefits.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "What is database sharding, and how is it used to scale databases?",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the concept of database clustering and its advantages.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Discuss the challenges and solutions related to database security.",
+    "subject": "Advanced Database",
+    "level": "Medium"
+  },
+  {
+    "question": "Solve the quadratic equation ax^2 + bx + c = 0.",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "What is the concept of limits in calculus, and how are they calculated?",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the properties of different types of triangles (e.g., equilateral, isosceles, scalene).",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "What is the Pythagorean theorem, and how is it used to find the length of the sides of a right triangle?",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of derivatives in calculus and provide examples of functions and their derivatives.",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Solve the system of linear equations using the substitution method.",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "What is the fundamental theorem of calculus, and how does it relate to integration?",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the properties of different types of functions (e.g., linear, quadratic, exponential).",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Calculate the area and circumference of a circle given its radius.",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Solve exponential equations using logarithms.",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the concept of probability and provide examples of probability calculations.",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of permutations and combinations and provide examples.",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Solve trigonometric equations involving sine, cosine, and tangent functions.",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Calculate the volume and surface area of basic geometric shapes (e.g., cube, sphere, cylinder).",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of vectors and vector operations (e.g., addition, scalar multiplication).",
+    "subject": "Math",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the concept of inheritance in object-oriented programming and provide examples.",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "What is polymorphism, and how does it enable flexibility in object-oriented design?",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the difference between an abstract class and an interface in Java.",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "Discuss the advantages of encapsulation in object-oriented programming.",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "What is method overloading, and how is it used to create multiple methods with the same name but different parameters?",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "Describe the concept of constructor chaining in Java.",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "Explain the purpose of access modifiers (e.g., public, private, protected) in Java classes.",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "What are static variables and methods, and how are they used in Java?",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "Discuss the concept of composition in object-oriented programming.",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  },
+  {
+    "question": "What is the difference between shallow copy and deep copy in Java?",
+    "subject": "Object Oriented Programming",
+    "level": "Medium"
+  }
+]

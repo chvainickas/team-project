@@ -1,10 +1,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose a subject to take a test</title>
+    <title>Results</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/style.css">
-    <script src="/scripts/home_test.js"></script>
+    <script src="/scripts/results.js"></script>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -37,15 +37,14 @@
     <!-- Main Content -->
     <div class="container mt-4">
         <div class="row">
-            <h1>To start exam please select Subject: </h1>
-            <div class="subject-buttons">
-                <button class="subject-btn" onclick="startTest('Data Structure and Algorithms')">Data Structure and
-                    Algorithms</button>
-                <button class="subject-btn" onclick="startTest('Advanced Database')">Advanced Database</button>
-                <button class="subject-btn" onclick="startTest('Math')">Math</button>
-                <button class="subject-btn" onclick="startTest('Object Oriented Programming')">Object Oriented
-                    Programming</button>
+            <h1>Results</h1>
+            <div id="question-container" class="container">
+                <h3 id="question">Question:</h3>
+                <p id="user-answer">User's Answer:</p>
+                <p id="ai-feedback">AI Feedback:</p>
             </div>
+            <button id="prevButton">Previous</button>
+            <button id="nextButton">Next</button>
         </div>
     </div>
 
