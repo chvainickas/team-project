@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SmartPrep Solutions: AI-Powered Online Exam Prep</title>
+  <title>Sample exam</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="/styles/style.css">
+  <script src="/scripts/test.js"></script>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand logo-text" href="#"><img src="img/logo.png" alt="SmartPrep Solutions">SmartPrep Solutions</a>
+    <a class="navbar-brand logo-text" href="#"><img src="img/logo.png" alt="SmartPrep Solutions">SmartPrep
+      Solutions</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -38,18 +37,13 @@
   <!-- Main Content -->
   <div class="container mt-4">
     <div class="row">
-      <div class="col-md-6">
-        <h1>Welcome to SmartPrep Solutions: AI-Powered Online Exam Prep</h1>
-        <p>Prepare for your exams with the power of Artificial Intelligence. Our platform provides personalized study plans, real-time progress tracking, and interactive study materials to help you succeed.</p>
-        <p>To use our services, please register or sign in to your account.</p>
-        <div>
-          <a href="#" class="btn btn-primary mr-2">Sign-Up</a>
-          <a href="#" class="btn btn-success">Sign-In</a>
-        </div>
+      <div id="question-container">
+        <!-- Здесь будет отображаться текущий вопрос -->
       </div>
-      <div class="col-md-6">
-        <img src="/img/exam_prep.png" alt="Exam Preparation" class="img-fluid">
-      </div>
+      <textarea id="answerInput" placeholder="Type your answer here..."></textarea>
+      <button id="prevButton">Prev</button>
+      <button id="nextButton">Next</button>
+      <button id="submitButton">Submit</button>
     </div>
   </div>
 
