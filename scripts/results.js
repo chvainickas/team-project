@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (question) {
       const answer = userAnswers[index] || '';
-      const comment = await getResponse(question.question + " " + answer);
+      const comment = await getResponse("Question: " + question.question + "\n " + "Answer: " + answer);
       questionContainer.innerHTML = `
           <h3>${question.question}</h3>
           <h3>Answer:</h3>
