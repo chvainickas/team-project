@@ -1,77 +1,104 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Получаем данные о тесте и ответах пользователя из локального хранилища
-  const testData = JSON.parse(localStorage.getItem('testData'));
+document.addEventListener('DOMContentLoaded', function () {
+  // Парсим userAnswers и selectedQuestions, переданные с test.html
   const userAnswers = JSON.parse(localStorage.getItem('userAnswers'));
-  
-  // Отображаем первый вопрос и ответ пользователя
-  displayQuestion(testData, userAnswers, 0);
-  
-  // Обработчик события для кнопки "Next"
-  document.getElementById('nextButton').addEventListener('click', function() {
-    // Сохраняем текущий ответ пользователя
-    saveUserAnswer();
-    // Отображаем следующий вопрос
-    displayNextQuestion(testData, userAnswers);
-  });
-  
-  // Обработчик события для кнопки "Previous"
-  document.getElementById('prevButton').addEventListener('click', function() {
-    // Сохраняем текущий ответ пользователя
-    saveUserAnswer();
-    // Отображаем предыдущий вопрос
-    displayPrevQuestion(testData, userAnswers);
-  });
-});
+  const selectedQuestions = JSON.parse(localStorage.getItem('selectedQuestions'));
 
-// Функция для отображения вопроса и ответа пользователя
-function displayQuestion(testData, userAnswers, index) {
-  // Получаем элементы DOM
-  const questionElement = document.getElementById('question');
-  const userAnswerElement = document.getElementById('user-answer');
-  const aiFeedbackElement = document.getElementById('ai-feedback');
-  
-  // Проверяем, есть ли данные о тесте и ответах пользователя
-  if (testData && userAnswers) {
-    // Проверяем, есть ли ответ пользователя на текущий вопрос
-    if (userAnswers[index]) {
-      // Отображаем вопрос и ответ пользователя
-      questionElement.textContent = "Question: " + testData[index].question;
-      userAnswerElement.textContent = "User's Answer: " + userAnswers[index].answer;
-      // Здесь можно добавить запрос к ИИ для получения комментария
-      aiFeedbackElement.textContent = "AI Feedback: " + "Comment from AI";
+  console.log('userAnswers:', userAnswers);
+  console.log('selectedQuestions:', selectedQuestions);
+
+  // Загружаем вопросы из questions.json
+  fetch('questions.json')
+    .then(response => response.json())
+    .then(data => {
+      console.log('Loaded questions:', data);
+
+      let currentQuestionIndex = 0; // Индекс текущего вопроса
+      displayQuestionAndAnswer(data, userAnswers, selectedQuestions, currentQuestionIndex);
+
+      // Обработчик события для кнопки "Next"
+      document.getElementById('nextButton').addEventListener('click', function () {
+        const questionCount = Object.keys(selectedQuestions).length;
+        if (currentQuestionIndex < questionCount - 1) {
+          currentQuestionIndex++;
+          displayQuestionAndAnswer(data, userAnswers, selectedQuestions, currentQuestionIndex);
+        }
+      });
+
+      // Обработчик события для кнопки "Prev"
+      document.getElementById('prevButton').addEventListener('click', function () {
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex--;
+          displayQuestionAndAnswer(data, userAnswers, selectedQuestions, currentQuestionIndex);
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching questions:', error);
+      displayQuestionNotFound();
+    });
+
+  // Функция для отображения вопроса, ответа пользователя и комментария от ИИ
+  async function displayQuestionAndAnswer(data, userAnswers, selectedQuestions, index) {
+    const questionContainer = document.getElementById('question-container');
+    const questionId = selectedQuestions[index];
+    const question = data.find(q => q.id === questionId);
+
+    if (question) {
+      const answer = userAnswers[index] || '';
+      const comment = await getResponse(question.question + " " + answer);
+      questionContainer.innerHTML = `
+          <h3>${question.question}</h3>
+          <h3>Answer:</h3>
+          <p>${answer}</p>
+          <h3>AI Comment:</h3>
+          <p>${comment}</p>
+          `;
     } else {
-      // Если ответа пользователя нет, выводим сообщение "No answered"
-      questionElement.textContent = "Question: " + testData[index].question;
-      userAnswerElement.textContent = "User's Answer: No answered";
-      aiFeedbackElement.textContent = "AI Feedback: No answered";
+      displayQuestionNotFound();
     }
-  } else {
-    // Если данных нет, выводим сообщение об ошибке
-    questionElement.textContent = "Error: No data available";
-    userAnswerElement.textContent = "";
-    aiFeedbackElement.textContent = "";
   }
-}
 
-// Функция для сохранения ответа пользователя
-function saveUserAnswer() {
-  // Получаем ответ пользователя из поля ввода или другого элемента
-  const userAnswer = "User's answer"; // Нужно заменить на реальный код получения ответа
-  // Здесь можно сохранить ответ пользователя в локальное хранилище или отправить на сервер
-}
+  // Функция для отображения сообщения о том, что вопрос не найден
+  function displayQuestionNotFound() {
+    const questionContainer = document.getElementById('question-container');
+    questionContainer.innerHTML = '<p>Question not found</p>';
+  }
 
-// Функция для отображения следующего вопроса
-function displayNextQuestion(testData, userAnswers) {
-  // Получаем текущий индекс вопроса
-  const currentIndex = 0; // Нужно заменить на реальный код получения текущего индекса
-  // Отображаем следующий вопрос, увеличивая индекс на 1
-  displayQuestion(testData, userAnswers, currentIndex + 1);
-}
+  // Функция для отправки запроса к GPT и получения комментария
+  async function getResponse(message) {
+    const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+    const API_KEY = "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"; // replace with your OpenAI API key
 
-// Функция для отображения предыдущего вопроса
-function displayPrevQuestion(testData, userAnswers) {
-  // Получаем текущий индекс вопроса
-  const currentIndex = 0; // Нужно заменить на реальный код получения текущего индекса
-  // Отображаем предыдущий вопрос, уменьшая индекс на 1
-  displayQuestion(testData, userAnswers, currentIndex - 1);
-}
+    try {
+      const response = await fetch(
+        OPENAI_API_URL,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              {
+                role: "system",
+                content: "Answer like a thoughtful and kind teacher! Review student's answer on the question, explain what if the answer correct or not and why.",
+              },
+              {
+                role: "user",
+                content: message,
+              },
+            ],
+          })
+        }
+      );
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+});

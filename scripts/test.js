@@ -1,7 +1,7 @@
-
 document.addEventListener('DOMContentLoaded', function() {
   let currentQuestionIndex = 0;
-  let userAnswers = {};
+  let userAnswers = {}; // Словарь для хранения ответов пользователя
+  let selectedQuestions = {}; // Словарь для хранения айди выбранных вопросов
 
   // Получаем предмет из параметров запроса
   const urlParams = new URLSearchParams(window.location.search);
@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
       filteredQuestions = chooseRandomQuestions(filteredQuestions, 10);
       // Отображаем первый вопрос
       displayQuestion(filteredQuestions[currentQuestionIndex]);
+
+      // Заполняем словарь выбранных вопросов
+      filteredQuestions.forEach((question, index) => {
+        selectedQuestions[index] = question.id;
+      });
     });
 
   // Функция для выбора случайных вопросов
@@ -92,7 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
   function submitTest() {
     // Сохраняем ответы пользователя в локальное хранилище
     localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+    localStorage.setItem('selectedQuestions', JSON.stringify(selectedQuestions));
     // Перенаправляем пользователя на страницу результатов
     window.location.href = 'results.html';
   }
+
+  // Обработчик события ввода ответа пользователя
+  document.getElementById('answerInput').addEventListener('input', function(event) {
+    const answer = event.target.value;
+    userAnswers[currentQuestionIndex] = answer;
+  });
 });
