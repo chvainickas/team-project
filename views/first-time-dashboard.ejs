@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand logo-text" href="#"><img src="img/logo.png" alt="SmartPrep Solutions">SmartPrep
+            Solutions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chat</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h1>Welcome, <%= username %>!</h1>
+        <p>As this is your first time, please add your subject(s):</p>
+        <form action="/save-subjects" method="POST">
+            <div class="form-group" id="subjects-group">
+                <label>Subject(s)</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="subjects[]" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="add-subject">Add</button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+
+        <!-- Footer -->
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container text-center">
+                Powered by SmartPrep Solutions
+            </div>
+        </footer>
+
+        <!-- Bootstrap JavaScript -->
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            document.getElementById('add-subject').addEventListener('click', function () {
+                // Change this button to a 'Remove' button
+                this.textContent = 'Remove';
+                this.id = '';
+                this.classList.add('remove-subject');
+                this.removeEventListener('click', arguments.callee);
+                this.addEventListener('click', function () {
+                    this.parentElement.parentElement.remove();
+                });
+
+                // Create a new subject input with a new 'Add' button
+                var div = document.createElement('div');
+                div.className = 'input-group mb-3';
+
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'subjects[]';
+                input.className = 'form-control';
+
+                var button = document.createElement('button');
+                button.className = 'btn btn-outline-secondary';
+                button.type = 'button';
+                button.textContent = 'Add';
+                button.id = 'add-subject';
+
+                var divAppend = document.createElement('div');
+                divAppend.className = 'input-group-append';
+                divAppend.appendChild(button);
+
+                div.appendChild(input);
+                div.appendChild(divAppend);
+
+                document.getElementById('subjects-group').appendChild(div);
+
+                // Add event listener to the new 'Add' button
+                document.getElementById('add-subject').addEventListener('click', arguments.callee);
+            });
+        </script>
+</body>
+
+</html>

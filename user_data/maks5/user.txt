@@ -1,1 +1,0 @@
-{"firstName":"maks","lastName":"maks","username":"maks5","password":"jkgyhvjhk","email":"maks@maks.ie","courseName":"Computer Science"}
