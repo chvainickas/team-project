@@ -26,6 +26,27 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 
+  // Устанавливаем таймер на 25 минут
+  let timeRemaining = 25 * 60;
+  let timer = setInterval(updateTimer, 1000);
+
+  // Функция для обновления отображения таймера
+  function updateTimer() {
+    // Уменьшаем оставшееся время
+    timeRemaining--;
+
+    // Обновляем отображение таймера
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    document.getElementById('timerDisplay').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    // Если время истекло, завершаем тест
+    if (timeRemaining <= 0) {
+      clearInterval(timer);
+      submitTest();
+    }
+  }
+
   // Функция для выбора случайных вопросов
   function chooseRandomQuestions(questions, count) {
     const randomQuestions = [];
@@ -45,7 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Функция для отображения текущего вопроса
   function displayQuestion(question) {
     const questionContainer = document.getElementById('question-container');
-    questionContainer.innerHTML = '<h3>' + question.question + '</h3>';
+    showIndex = currentQuestionIndex + 1;
+    questionContainer.innerHTML = '<h3>' + showIndex + '/10 ' + question.question + '</h3>';
   }
 
   // Обработчик события для кнопки "Next"
@@ -95,9 +117,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Функция для завершения теста и перехода на страницу результатов
   function submitTest() {
+    // Очищаем таймер
+    clearInterval(timer);
+
     // Сохраняем ответы пользователя в локальное хранилище
     localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
     localStorage.setItem('selectedQuestions', JSON.stringify(selectedQuestions));
+  
     // Перенаправляем пользователя на страницу результатов
     window.location.href = 'results.html';
   }
