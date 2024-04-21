@@ -1,0 +1,240 @@
+.logo-text {
+  font-size: 1.5rem;
+  /* Размер текста логотипа */
+  padding-left: 15px;
+  /* Отступ слева для текста логотипа */
+}
+
+.logo-text img {
+  height: 40px;
+  /* Высота логотипа */
+  width: auto;
+  /* Автоматическая ширина для сохранения пропорций */
+  margin-right: 10px;
+  /* Отступ справа от логотипа */
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.footer {
+  width: 100%;
+}
+
+/*home test styles*/
+.subject-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.subject-btn {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.subject-btn:hover {
+  background-color: #0056b3;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+#question-container {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+#answerInput {
+  width: 100%;
+  padding: 10px;
+  height: 300px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#prevButton,
+#nextButton {
+  margin-right: 10px;
+}
+
+#submitButton {
+  background-color: #28a745;
+  color: white;
+}
+
+#submitButton:hover {
+  background-color: #218838;
+}
+
+/*timer styles*/
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+#timerDisplay {
+  font-size: 20px;
+}
+
+.clock {
+  width: 50px;
+  height: 50px;
+}
+
+.clock circle {
+  stroke: #000;
+  fill: #fff;
+  stroke-width: 2;
+}
+
+.clock #hand {
+  stroke: #000;
+  stroke-width: 2;
+  transform-origin: 50% 50%;
+  animation: spin 1500s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* login page */
+.login {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login label {
+  font-weight: bold;
+}
+
+.login input[type="text"],
+.login input[type="password"],
+.login input[type="submit"],
+.login button {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  font-size: 16px;
+}
+
+.login input[type="text"],
+.login input[type="password"],
+.login input[type="submit"] {
+  width: 100%;
+}
+
+.login button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.login button:hover {
+  background-color: #0056b3;
+}
+
+/* register page */
+.register {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.register input[type="text"],
+.register input[type="password"],
+.register input[type="email"] {
+  width: calc(100% - 22px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.register input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+

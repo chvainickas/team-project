@@ -12,47 +12,50 @@
 <body class="d-flex flex-column min-vh-100">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand logo-text" href="#"><img src="img/logo.png" alt="SmartPrep Solutions">SmartPrep
-            Solutions</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Test</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Chat</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container mt-4">
-        <h1>Registration</h1>
-        <form id="registrationForm" action="/register" method="POST">
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" required><br><br>
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" required><br><br>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
-            <label for="courseName">Course Name:</label>
-            <input type="text" id="courseName" name="courseName" required><br><br>
-            <input type="submit" value="Register">
-        </form>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand logo-text" href="index.html"><img src="/img/logo.png" alt="SmartPrep Solutions">SmartPrep Solutions</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="home_test.html">Take exam</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" >Chat</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </li>
+      </ul>
     </div>
+  </nav>
+
+    <div class="container mt-4">
+        <div class="register">
+            <h1>Registration</h1>
+            <form id="registrationForm" action="/register" method="POST">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required><br><br>
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required><br><br>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+                <label for="courseName">Course Name:</label>
+                <input type="text" id="courseName" name="courseName" required><br><br>
+                <input type="submit" value="Register">
+            </form>
+        </div>
+    </div>
+
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container text-center">
             Powered by SmartPrep Solutions
