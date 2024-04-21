@@ -298,8 +298,6 @@ app.get("/chat/:username", ensureAuthenticated, (req, res) => {
 });
 let chatHistory = [];
 
-let firstUserMessage = null;
-
 app.post("/saveChatHistory/:subject", function (req, res) {
   console.log(req.body); // Log the request body
   console.log(req.user); // Log the request user
@@ -307,21 +305,11 @@ app.post("/saveChatHistory/:subject", function (req, res) {
   const { user, ai, subject } = req.body;
   const username = req.user.username; // Get the username of the logged in user
 
-  // If firstUserMessage is null, this is the first user message
-  if (!firstUserMessage) {
-    firstUserMessage = user;
-  }
-
   // Define the directory
   const dir = path.join(__dirname, "user_data", username, subject);
-  const newChat = {
-    user: user,
-    ai: ai,
-    subject: subject,
-  };
 
   // Define the filename
-  let filename = `${firstUserMessage.replace(/[<>:"/\\|?*]+/g, " ")}.json`;
+  let filename = `${user.replace(/[<>:"/\\|?*]+/g, " ")}.json`;
 
   fs.readFile(path.join(dir, filename), "utf8", (err, data) => {
     // Parse the existing chat history, or initialize an empty array if the file does not exist

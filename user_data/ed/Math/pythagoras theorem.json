@@ -1,7 +1,0 @@
-[
-  {
-    "user": "pythagoras theorem",
-    "ai": "Pythagoras theorem states that in a right-angled triangle, the square of the length of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the lengths of the other two sides.\n\nIn mathematical terms: \n\nIf a and b are the lengths of the two shorter sides of the right-angled triangle, and c is the length of the hypotenuse, then the theorem can be written as:\nc^2 = a^2 + b^2\n\nThis theorem is named after the ancient Greek mathematician Pythagoras, who is credited with its discovery. It is a fundamental principle in geometry and has many applications in various fields of mathematics and science.",
-    "subject": "Math"
-  }
-]

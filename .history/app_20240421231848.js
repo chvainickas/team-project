@@ -298,8 +298,6 @@ app.get("/chat/:username", ensureAuthenticated, (req, res) => {
 });
 let chatHistory = [];
 
-let firstUserMessage = null;
-
 app.post("/saveChatHistory/:subject", function (req, res) {
   console.log(req.body); // Log the request body
   console.log(req.user); // Log the request user
@@ -307,28 +305,34 @@ app.post("/saveChatHistory/:subject", function (req, res) {
   const { user, ai, subject } = req.body;
   const username = req.user.username; // Get the username of the logged in user
 
-  // If firstUserMessage is null, this is the first user message
-  if (!firstUserMessage) {
-    firstUserMessage = user;
-  }
-
   // Define the directory
   const dir = path.join(__dirname, "user_data", username, subject);
-  const newChat = {
-    user: user,
-    ai: ai,
-    subject: subject,
-  };
 
-  // Define the filename
-  let filename = `${firstUserMessage.replace(/[<>:"/\\|?*]+/g, " ")}.json`;
+  fs.readFile(path.join(dir, `${subject}.json`), "utf8", (err, data) => {
+    if (err && err.code !== "ENOENT") {
+      console.error(`Error reading file: ${err}`);
+      return res.status(500).send("Server Error");
+    }
 
-  fs.readFile(path.join(dir, filename), "utf8", (err, data) => {
     // Parse the existing chat history, or initialize an empty array if the file does not exist
     const chatHistory = data ? JSON.parse(data) : [];
 
+    // Prepare the new chat message
+    const newChat = {
+      user: user,
+      ai: ai,
+      subject: subject,
+    };
+
     // Append the new chat message
     chatHistory.push(newChat);
+
+    // Extract the first user message from the chat history, or use the subject if the chat history is empty
+    const firstUserMessage =
+      chatHistory.length > 0 ? chatHistory[0].user : subject;
+
+    // Replace any characters that are not allowed in file names with a space
+    const filename = `${firstUserMessage.replace(/[<>:"/\\|?*]+/g, " ")}.json`;
 
     // Write the updated history back to the file
     fs.writeFile(
@@ -345,6 +349,8 @@ app.post("/saveChatHistory/:subject", function (req, res) {
     );
   });
 });
+// Initialize an empty array to store the conversation history
+let conversationHistory = [];
 
 app.post("/getBotResponse", function (req, res) {
   const { message } = req.body;

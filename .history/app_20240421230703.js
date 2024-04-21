@@ -26,6 +26,7 @@ app.use(
     cookie: { secure: false },
   })
 );
+
 app.use(flash()); // Add this line to use the 'flash' module
 passport.use(
   new LocalStrategy(function (username, password, done) {
@@ -298,51 +299,63 @@ app.get("/chat/:username", ensureAuthenticated, (req, res) => {
 });
 let chatHistory = [];
 
-let firstUserMessage = null;
 
-app.post("/saveChatHistory/:subject", function (req, res) {
-  console.log(req.body); // Log the request body
-  console.log(req.user); // Log the request user
 
-  const { user, ai, subject } = req.body;
-  const username = req.user.username; // Get the username of the logged in user
+app.post("/saveChatHistory/:subject", (req, res) => {
+  const folderPath = req.params.folderPath;
+  const chatHistory = req.body;
 
-  // If firstUserMessage is null, this is the first user message
-  if (!firstUserMessage) {
-    firstUserMessage = user;
-  }
+  // Define the path to the chat history file
+  const filePath = path.join(
+    __dirname,
+    "chatHistories",
+    folderPath,
+    "chatHistory.json"
+  );
 
-  // Define the directory
-  const dir = path.join(__dirname, "user_data", username, subject);
-  const newChat = {
-    user: user,
-    ai: ai,
-    subject: subject,
-  };
-
-  // Define the filename
-  let filename = `${firstUserMessage.replace(/[<>:"/\\|?*]+/g, " ")}.json`;
-
-  fs.readFile(path.join(dir, filename), "utf8", (err, data) => {
-    // Parse the existing chat history, or initialize an empty array if the file does not exist
-    const chatHistory = data ? JSON.parse(data) : [];
-
-    // Append the new chat message
-    chatHistory.push(newChat);
-
-    // Write the updated history back to the file
-    fs.writeFile(
-      path.join(dir, filename),
-      JSON.stringify(chatHistory, null, 2),
-      (err) => {
+  // Check if the file already exists
+  fs.exists(filePath, (exists) => {
+    if (exists) {
+      // If the file exists, read it, append the new chat history, and then write it back to the file
+      fs.readFile(filePath, "utf8", (err, data) => {
         if (err) {
-          console.error(`Error writing file: ${err}`);
-          return res.status(500).send("Server Error");
+          console.error(err);
+          res.status(500).json({ message: "Error reading chat history file" });
+          return;
         }
 
-        res.status(200).send("Chat history saved successfully");
-      }
-    );
+        const existingChatHistory = JSON.parse(data);
+        existingChatHistory.push(chatHistory);
+
+        fs.writeFile(
+          filePath,
+          JSON.stringify(existingChatHistory),
+          "utf8",
+          (err) => {
+            if (err) {
+              console.error(err);
+              res
+                .status(500)
+                .json({ message: "Error writing to chat history file" });
+              return;
+            }
+
+            res.json({ message: "Chat history saved" });
+          }
+        );
+      });
+    } else {
+      // If the file does not exist, create it and write the chat history to it
+      fs.writeFile(filePath, JSON.stringify([chatHistory]), "utf8", (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ message: "Error creating chat history file" });
+          return;
+        }
+
+        res.json({ message: "Chat history saved" });
+      });
+    }
   });
 });
 

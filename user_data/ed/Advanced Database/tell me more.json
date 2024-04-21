@@ -1,7 +1,0 @@
-[
-  {
-    "user": "tell me more",
-    "ai": "In a binary tree, each node can have zero, one, or two children nodes. The left child is typically smaller than the parent node, and the right child is typically larger, but this ordering can vary based on the specific implementation or requirements.\n\nBinary trees are often used in applications where data needs to be stored and retrieved quickly, such as in databases and search algorithms. They are also the foundation for more advanced data structures like binary search trees and AVL trees.\n\nThere are different types of binary trees, including full binary trees, complete binary trees, perfect binary trees, and balanced binary trees. Each type has specific characteristics and advantages for different use cases.\n\nOverall, binary trees are a fundamental data structure in computer science and are essential to understand for anyone working with data storage, retrieval, and manipulation algorithms.",
-    "subject": "Advanced Database"
-  }
-]

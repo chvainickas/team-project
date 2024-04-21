@@ -298,19 +298,12 @@ app.get("/chat/:username", ensureAuthenticated, (req, res) => {
 });
 let chatHistory = [];
 
-let firstUserMessage = null;
-
 app.post("/saveChatHistory/:subject", function (req, res) {
   console.log(req.body); // Log the request body
   console.log(req.user); // Log the request user
 
   const { user, ai, subject } = req.body;
   const username = req.user.username; // Get the username of the logged in user
-
-  // If firstUserMessage is null, this is the first user message
-  if (!firstUserMessage) {
-    firstUserMessage = user;
-  }
 
   // Define the directory
   const dir = path.join(__dirname, "user_data", username, subject);
@@ -319,31 +312,37 @@ app.post("/saveChatHistory/:subject", function (req, res) {
     ai: ai,
     subject: subject,
   };
-
   // Define the filename
-  let filename = `${firstUserMessage.replace(/[<>:"/\\|?*]+/g, " ")}.json`;
+  // Define the filename
+let filename = `${subject.replace(/[<>:"/\\|?*]+/g, " ")}.json`;
 
-  fs.readFile(path.join(dir, filename), "utf8", (err, data) => {
-    // Parse the existing chat history, or initialize an empty array if the file does not exist
-    const chatHistory = data ? JSON.parse(data) : [];
+fs.readFile(path.join(dir, filename), "utf8", (err, data) => {
+  // Parse the existing chat history, or initialize an empty array if the file does not exist
+  const chatHistory = data ? JSON.parse(data) : [];
 
-    // Append the new chat message
-    chatHistory.push(newChat);
+  // Prepare the new chat message
+  const newChat = {
+    user: user,
+    ai: ai,
+    subject: subject,
+  };
 
-    // Write the updated history back to the file
-    fs.writeFile(
-      path.join(dir, filename),
-      JSON.stringify(chatHistory, null, 2),
-      (err) => {
-        if (err) {
-          console.error(`Error writing file: ${err}`);
-          return res.status(500).send("Server Error");
-        }
+  // Append the new chat message
+  chatHistory.push(newChat);
 
-        res.status(200).send("Chat history saved successfully");
+  // Write the updated history back to the file
+  fs.writeFile(
+    path.join(dir, filename),
+    JSON.stringify(chatHistory, null, 2),
+    (err) => {
+      if (err) {
+        console.error(`Error writing file: ${err}`);
+        return res.status(500).send("Server Error");
       }
-    );
-  });
+
+      res.status(200).send("Chat history saved successfully");
+    }
+  );
 });
 
 app.post("/getBotResponse", function (req, res) {

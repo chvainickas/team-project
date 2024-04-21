@@ -32,7 +32,7 @@
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand logo-text" href="index.html"><img src="/img/logo.png" alt="SmartPrep Solutions">SmartPrep
+        <a class="navbar-brand logo-text" href="#"><img src="/img/logo.png" alt="SmartPrep Solutions">SmartPrep
             Solutions</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,20 +41,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="home_test.html">Take exam</a>
+                    <a class="nav-link" href="#">Test</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="login.html">Chat</a>
+                    <a class="nav-link" href="#">Chat</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
-
 
     <!-- Main Content -->
     <div class="container mt-4">
@@ -108,7 +107,7 @@
             console.log('Script is running');
 
             const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-            const API_KEY = ""; // replace with your OpenAI API key
+            const API_KEY = "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"; // replace with your OpenAI API key
             USERNAME = '<%= username %>';
             let conversationHistory = [];
 
@@ -255,7 +254,7 @@
                         clone.text().then(text => console.log('Raw getChatHistory response:', text));
                         return response.json();
                     })
-                    .then(data => {
+                    .then(data => {g
                         console.log('Chat history:', data);
                         // Process the chat history data...
                     })
