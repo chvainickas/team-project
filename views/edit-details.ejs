@@ -2,28 +2,99 @@
 <html lang="en">
 
 <head>
-    <!-- head content -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/style.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <!-- body content -->
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand logo-text" href="#"><img src="img/logo.png" alt="SmartPrep Solutions">SmartPrep
+            Solutions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chat</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <!-- Main Content -->
     <div class="container mt-4">
-        <h1>Edit Details</h1>
-        <form action="/update-details" method="POST">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" value="<%= username %>" required>
-            </div>
-            <!-- Add more fields as necessary -->
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
+        <h1>Current Semester Subjects</h1>
+        <div class="form-group" id="subjects-group">
+            <label>Subjects</label>
+            <% if (user && user.subjects) { %>
+                <% user.subjects.forEach(function(subject) { %>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" value="<%= subject %>" readonly>
+                    </div>
+                    <% }); %>
+                        <% } %>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="location.href='/dashboard'">Back to Dashboard</button>
     </div>
-    <!-- footer -->
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            Powered by SmartPrep Solutions
+        </div>
+    </footer>
+
     <!-- Bootstrap JavaScript -->
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Retrieve existing subjects from the server
+        fetch('/get-subjects/<%= user.username %>')
+            .then(response => response.json())
+            .then(data => {
+                const subjects = data;
+                const subjectsGroup = document.getElementById('subjects-group');
+                // remove all existing subject input fields
+                while (subjectsGroup.firstChild) {
+                    subjectsGroup.firstChild.remove();
+                }
+
+                // create and append new subject input fields
+                subjects.forEach(subject => {
+                    var div = document.createElement('div');
+                    div.className = 'input-group mb-3';
+
+                    var input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'form-control';
+                    input.value = subject; // set input value to subject
+                    input.readOnly = true; // make the input field read-only
+
+                    div.appendChild(input);
+
+                    subjectsGroup.appendChild(div);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
 </body>
 
 </html>
