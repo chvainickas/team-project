@@ -2,18 +2,53 @@
 <html lang="en">
 
 <head>
-    <!-- head content -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPrep Solutions: AI-Powered Online Exam Prep</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/style.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <!-- body content -->
 
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand logo-text" href="#"><img src="img/logo.png" alt="SmartPrep Solutions">SmartPrep
+            Solutions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chat</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
     <div class="container mt-4">
-        <h1>Registration Successful</h1>
-        <p>Welcome, <%= username %>! You have successfully registered.</p>
+        <h1>Please Login</h1>
+        <p>Welcome to SmartPrep Solutions! Please login to continue.</p>
+        <button type="button" class="btn btn-primary" onclick="location.href='/login.html'">Login</button>
     </div>
 
-    <!-- footer -->
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            Powered by SmartPrep Solutions
+        </div>
+    </footer>
 
     <!-- Bootstrap JavaScript -->
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>

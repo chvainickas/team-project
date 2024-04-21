@@ -40,70 +40,72 @@
     <div class="container mt-4">
         <h1>Welcome, <%= username %>!</h1>
         <p>As this is your first time, please add your subject(s):</p>
-        <form action="/save-subjects" method="POST">
+        <form id="subject-form" action="/save-subjects" method="POST">
             <div class="form-group" id="subjects-group">
                 <label>Subject(s)</label>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="subjects[]" required>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="add-subject">Add</button>
+                        <button class="btn btn-outline-secondary remove-subject" type="button">Remove</button>
                     </div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
+    </div>
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            Powered by SmartPrep Solutions
+        </div>
+    </footer>
 
-        <!-- Footer -->
-        <footer class="footer mt-auto py-3 bg-light">
-            <div class="container text-center">
-                Powered by SmartPrep Solutions
-            </div>
-        </footer>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>const subjects = ["Data Structure and Algorithms", "Advanced Database", "Math", "Object Oriented Programming"];
+        const subjectForm = document.getElementById('subject-form');
 
-        <!-- Bootstrap JavaScript -->
-        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            document.getElementById('add-subject').addEventListener('click', function () {
-                // Change this button to a 'Remove' button
-                this.textContent = 'Remove';
-                this.id = '';
-                this.classList.add('remove-subject');
-                this.removeEventListener('click', arguments.callee);
-                this.addEventListener('click', function () {
-                    this.parentElement.parentElement.remove();
-                });
+        // Get the first input field and pre-fill it with the first subject
+        const firstInput = document.querySelector('#subjects-group .input-group input');
+        firstInput.value = subjects[0];
+        firstInput.readOnly = true; // Make the input field read-only
 
-                // Create a new subject input with a new 'Add' button
-                var div = document.createElement('div');
-                div.className = 'input-group mb-3';
+        // Remove the first subject from the array
+        subjects.shift();
 
-                var input = document.createElement('input');
-                input.type = 'text';
-                input.name = 'subjects[]';
-                input.className = 'form-control';
+        subjects.forEach(subject => {
+            const div = document.createElement('div');
+            div.className = 'input-group mb-3';
 
-                var button = document.createElement('button');
-                button.className = 'btn btn-outline-secondary';
-                button.type = 'button';
-                button.textContent = 'Add';
-                button.id = 'add-subject';
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'subjects[]';
+            input.className = 'form-control';
+            input.value = subject;
+            input.readOnly = true; // Make the input field read-only
+            div.appendChild(input);
 
-                var divAppend = document.createElement('div');
-                divAppend.className = 'input-group-append';
-                divAppend.appendChild(button);
+            const divAppend = document.createElement('div');
+            divAppend.className = 'input-group-append';
 
-                div.appendChild(input);
-                div.appendChild(divAppend);
-
-                document.getElementById('subjects-group').appendChild(div);
-
-                // Add event listener to the new 'Add' button
-                document.getElementById('add-subject').addEventListener('click', arguments.callee);
+            const button = document.createElement('button');
+            button.className = 'btn btn-outline-secondary remove-subject';
+            button.type = 'button';
+            button.innerText = 'Remove';
+            button.addEventListener('click', () => {
+                div.remove();
             });
-        </script>
+            divAppend.appendChild(button);
+
+            div.appendChild(divAppend);
+
+            // Insert new subjects before the "Save Changes" button
+            const saveChangesButton = document.querySelector('#subject-form button[type="submit"]');
+            subjectForm.insertBefore(div, saveChangesButton);
+        });</script>
 </body>
 
 </html>

@@ -37,31 +37,20 @@
     </nav>
 
     <!-- Main Content -->
+    <!-- Main Content -->
     <div class="container mt-4">
-        <h1>Edit Details</h1>
-        <form action="/update-details" method="POST">
-            <div class="form-group" id="subjects-group">
-                <label>Subjects</label>
-                <% if (user && user.subjects) { %>
-                    <% user.subjects.forEach(function(subject) { %>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="subjects[]" value="<%= subject %>" required>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary remove-subject" type="button">Remove</button>
-                            </div>
-                        </div>
-                        <% }); %>
-                            <% } %>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" name="subjects[]" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button"
-                                            id="add-subject">Add</button>
-                                    </div>
-                                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
+        <h1>Current Semester Subjects</h1>
+        <div class="form-group" id="subjects-group">
+            <label>Subjects</label>
+            <% if (user && user.subjects) { %>
+                <% user.subjects.forEach(function(subject) { %>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" value="<%= subject %>" readonly>
+                    </div>
+                    <% }); %>
+                        <% } %>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="location.href='/dashboard'">Back to Dashboard</button>
     </div>
 
     <!-- Footer -->
@@ -77,38 +66,34 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.getElementById('add-subject').addEventListener('click', function () {
-            var div = document.createElement('div');
-            div.className = 'input-group mb-3';
+        // Retrieve existing subjects from the server
+        fetch('/get-subjects/<%= user.username %>')
+            .then(response => response.json())
+            .then(data => {
+                const subjects = data;
+                const subjectsGroup = document.getElementById('subjects-group');
+                // remove all existing subject input fields
+                while (subjectsGroup.firstChild) {
+                    subjectsGroup.firstChild.remove();
+                }
 
-            var input = document.createElement('input');
-            input.type = 'text';
-            input.name = 'subjects[]';
-            input.className = 'form-control';
+                // create and append new subject input fields
+                subjects.forEach(subject => {
+                    var div = document.createElement('div');
+                    div.className = 'input-group mb-3';
 
-            var button = document.createElement('button');
-            button.className = 'btn btn-outline-secondary remove-subject';
-            button.type = 'button';
-            button.textContent = 'Remove';
-            button.addEventListener('click', function () {
-                this.parentElement.parentElement.remove();
-            });
+                    var input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'form-control';
+                    input.value = subject; // set input value to subject
+                    input.readOnly = true; // make the input field read-only
 
-            var divAppend = document.createElement('div');
-            divAppend.className = 'input-group-append';
-            divAppend.appendChild(button);
+                    div.appendChild(input);
 
-            div.appendChild(input);
-            div.appendChild(divAppend);
-
-            document.getElementById('subjects-group').appendChild(div);
-        });
-
-        document.querySelectorAll('.remove-subject').forEach(function (button) {
-            button.addEventListener('click', function () {
-                this.parentElement.parentElement.remove();
-            });
-        });
+                    subjectsGroup.appendChild(div);
+                });
+            })
+            .catch(error => console.error('Error:', error));
     </script>
 </body>
 

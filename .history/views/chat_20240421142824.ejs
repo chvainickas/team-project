@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/style.css">
+    <style>
+        #chat-area {
+            height: 60vh;
+            /* Set to desired percentage */
+            overflow-y: auto;
+        }
+
+        .chat-input {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- Add this line -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand logo-text" href="#"><img src="/img/logo.png" alt="SmartPrep Solutions">SmartPrep
+            Solutions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Test</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chat</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Left pane for previous chats -->
+            <div class="col-md-4">
+                <h2>Previous Chats</h2>
+                <div id="previous-chats">
+                    <!-- Previous chats go here -->
+                </div>
+            </div>
+
+            <!-- Main chat section -->
+            <div class="col-md-8">
+                <h1>Welcome to the chat, <%= username %>!</h1>
+                <div id="chat-area">
+                    <!-- Chat messages go here -->
+                    <div id="messages"></div> <!-- Add this line -->
+
+                    <div id="dropdown-area"></div>
+
+                </div>
+
+                <!-- Input field and submit button -->
+                <div class="chat-input">
+                    <!-- Form for typing and submitting messages -->
+                    <form id="chat-form">
+                        <div class="form-group">
+                            <label for="message">Type your message:</label>
+                            <input type="text" id="message" name="message" class="form-control">
+                        </div>
+                        <button type="submit" id="sendbutton" class="btn btn-primary">Submit</button>
+                        <!-- Add id attribute -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            Powered by SmartPrep Solutions
+        </div>
+    </footer>
+    <script>
+        let USERNAME;
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+            console.log('Script is running');
+
+            const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+            const API_KEY = "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"; // replace with your OpenAI API key
+            USERNAME = '<%= username %>';
+            let conversationHistory = [];
+
+            async function populateSubjectsDropdown() {
+                // Fetch the subjects.json file
+                const response = await fetch(`/user_data/${USERNAME}/subjects.json`);
+                const subjects = await response.json();
+
+                // Create a select element
+                const select = document.createElement('select');
+                select.id = 'subject';
+                select.name = 'subject';
+                select.className = 'form-control';
+
+                // Create a default option
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.text = 'Select a subject';
+                select.appendChild(defaultOption);
+
+                // For each subject, create an option element and append it to the select element
+                for (const subject of subjects) {
+                    const option = document.createElement('option');
+                    option.value = subject;
+                    option.text = subject;
+                    select.appendChild(option);
+                }
+
+                // Append the select element to the form
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+                const label = document.createElement('label');
+                label.for = 'subject';
+                label.textContent = 'Select a subject:';
+                formGroup.appendChild(label);
+                formGroup.appendChild(select);
+                document.getElementById('dropdown-area').appendChild(formGroup);
+            }
+
+
+            async function getResponse(message, subject) {
+                console.log(`Message: ${message}`);
+                console.log(`Subject: ${subject}`);
+
+                const subjects = await fetch(`/user_data/${USERNAME}/subjects.json`).then(res => res.json());
+                console.log(`Subjects: ${JSON.stringify(subjects)}`);
+
+                const subjectData = subjects[subject];
+                console.log(`Subject Data: ${JSON.stringify(subjectData)}`);
+
+                // Add the user's message to the conversation history
+                conversationHistory.push({
+                    role: "user",
+                    content: message,
+                });
+
+                try {
+                    const response = await fetch(
+                        OPENAI_API_URL,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${API_KEY}`
+                            },
+                            body: JSON.stringify({
+                                model: "gpt-3.5-turbo",
+                                messages: [
+                                    {
+                                        role: "system",
+                                        content: `You are a helpful assistant that knows a lot about ${subject}.`,
+                                    },
+                                    ...conversationHistory,
+                                ],
+                            })
+                        }
+                    );
+
+                    const data = await response.json();
+                    console.log(`OpenAI API Response: ${JSON.stringify(data)}`);
+                    const botResponse = data.choices[0].message.content;
+
+                    // Add the bot's response to the conversation history
+                    conversationHistory.push({
+                        role: "assistant",
+                        content: botResponse,
+                    });
+
+                    return botResponse;
+                } catch (error) {
+                    console.error(error);
+                    return null;
+                }
+            }
+
+            window.onload = function () {
+                const chatForm = document.getElementById('chat-form');
+                if (chatForm) {
+                    chatForm.addEventListener('submit', async (event) => {
+                        event.preventDefault();
+                        // Get the message from the input field
+                        const message = document.getElementById('message').value.trim();
+                        document.getElementById('message').value = '';
+                        // Get the selected subject from the dropdown
+                        const subjectDropdown = document.getElementById('subject');
+                        let subject = '';
+                        if (subjectDropdown) {
+                            subject = subjectDropdown.options[subjectDropdown.selectedIndex].value;
+                        }
+                        // If a message was provided, send it to the chat and get a response
+                        if (message) {
+                            addChatMessage({ username: USERNAME, message: message }, 'right');
+                            const response = await getResponse(message, subject);
+                            addChatMessage({ username: 'Bot', message: response }, 'left');
+                            saveChatHistory(message, response, subject); // Save chat history
+                        }
+                        if (subjectDropdown) {
+                            document.getElementById('dropdown-area').style.display = 'none';
+                        }
+                    });
+                }
+                populateSubjectsDropdown();
+                loadPreviousChats();
+            }
+
+            function addChatMessage(messageObj, side) {
+                // Get the messages div element
+                const messagesDiv = document.getElementById('messages'); // Replace 'messages' with your actual div ID
+
+                // Check if the messages div exists before appending a child
+                if (messagesDiv) {
+                    const newMessage = document.createElement('p');
+                    newMessage.textContent = `${messageObj.username}: ${messageObj.message}`;
+                    messagesDiv.appendChild(newMessage);
+                } else {
+                    console.error('Messages div not found');
+                }
+            }
+
+            function saveChatHistory(message, response, subject) {
+                const chatHistory = {
+                    user: message,
+                    ai: response,
+                    subject: subject
+                };
+
+                // Use the subject to determine the correct folder
+                const folderPath = subject.replace(/\s+/g, '_'); // replace spaces with underscores
+
+                return new Promise((resolve, reject) => {
+                    $.post(
+                        `/saveChatHistory/${folderPath}`, // append the folder path to the URL
+                        chatHistory,
+                        function (data, status) {
+                            console.log("Chat history saved successfully.");
+                            resolve(chatHistory);
+                        }
+                    ).fail(function (error) {
+                        reject(error);
+                    });
+                });
+            }
+        });
+        async function loadPreviousChats() {
+            try {
+                console.log('Fetching user data...');
+                const response = await fetch(`/user_data/${USERNAME}`);
+                if (!response.ok) {
+                    throw new Error(`Error fetching user data: ${response.status}`);
+                }
+                console.log(await response.clone().text());  // Log the raw response text
+                const data = await response.json();
+                console.log('User data fetched successfully');
+
+                // Get the sidebar element
+                const sidebar = document.getElementById('sidebar');
+
+                // For each subject folder, fetch the chat files
+                for (const subjectFolder of data) {
+                    console.log(`Fetching chat files for ${subjectFolder.name}...`);
+                    const chatResponse = await fetch(`/user_data/${USERNAME}/${subjectFolder.name}`);
+                    if (!chatResponse.ok) {
+                        throw new Error(`Error fetching chat files: ${chatResponse.status}`);
+                    }
+                    const chatFiles = await chatResponse.json();
+                    console.log(`Chat files for ${subjectFolder.name} fetched successfully`);
+
+                    // Check if chatFiles is an array before iterating over it
+                    if (Array.isArray(chatFiles)) {
+                        // For each chat file, create a card and append it to the sidebar
+                        for (const chatFile of chatFiles) {
+                            console.log(`Creating card for ${chatFile}...`);
+                            console.log(chatFile);  // Log the chatFile object
+                            const card = document.createElement('div');
+                            // Check if chatFile.name is defined before calling replace
+                            if (chatFile.name) {
+                                // Remove the file extension from the chat file name
+                                const chatName = chatFile.name.replace(/\.[^/.]+$/, "");
+                                // Set the card text to the subject name and chat name
+                                card.textContent = `${subjectFolder.name}: ${chatName}`;
+                            } else {
+                                console.log('chatFile.name is undefined');
+                            }
+                            // Make the card clickable
+                            card.addEventListener('click', () => {
+                                loadChat(chatFile.name, subjectFolder);
+                            });
+                            const parentElement = document.getElementById('previous-chats'); // Replace with your actual parent element ID
+                            if (!parentElement) {
+                                throw new Error('Parent element not found');
+                            }
+                            parentElement.appendChild(card);
+                            console.log(`Card for ${chatFile.name} created successfully`);
+                        }
+                    } else {
+                        console.log(`No chat files found for ${subjectFolder.name}`);
+                    }
+                }
+            } catch (error) {
+                console.error(`Error fetching chat files: ${error}`);
+            }
+        }
+
+        async function loadPreviousChats() {
+            try {
+                console.log('Fetching user data...');
+                const response = await fetch(`/user_data/${USERNAME}`);
+                if (!response.ok) {
+                    throw new Error(`Error fetching user data: ${response.status}`);
+                }
+                console.log(await response.clone().text());  // Log the raw response text
+                const data = await response.json();
+                console.log('User data fetched successfully');
+
+                // Get the sidebar element
+                const sidebar = document.getElementById('sidebar');
+
+                // For each subject folder, fetch the chat files
+                for (const subjectFolder of data) {
+                    console.log(`Fetching chat files for ${subjectFolder.name}...`);
+                    const chatResponse = await fetch(`/user_data/${USERNAME}/${subjectFolder.name}`);
+                    if (!chatResponse.ok) {
+                        throw new Error(`Error fetching chat files: ${chatResponse.status}`);
+                    }
+                    const chatFiles = await chatResponse.json();
+                    console.log(`Chat files for ${subjectFolder.name} fetched successfully`);
+
+                    // Check if chatFiles is an array before iterating over it
+                    if (Array.isArray(chatFiles)) {
+                        // For each chat file, create a card and append it to the sidebar
+                        for (const chatFile of chatFiles) {
+                            console.log(`Creating card for ${chatFile}...`);
+                            console.log(chatFile);  // Log the chatFile object
+                            const card = document.createElement('div');
+                            // Check if chatFile.name is defined before calling replace
+                            if (chatFile.name) {
+                                // Remove the file extension from the chat file name
+                                const chatName = chatFile.name.replace(/\.[^/.]+$/, "");
+                                // Set the card text to the subject name and chat name
+                                card.textContent = `${subjectFolder.name}: ${chatName}`;
+                            } else {
+                                console.log('chatFile.name is undefined');
+                            }
+                            // Make the card clickable
+                            card.addEventListener('click', async () => {
+                                // Fetch the chat history
+                                const historyResponse = await fetch(`/user_data/${USERNAME}/${subjectFolder.name}/${chatFile.name}`);
+                                if (!historyResponse.ok) {
+                                    throw new Error(`Error fetching chat history: ${historyResponse.status}`);
+                                }
+                                const history = await historyResponse.json();
+                                // Load the chat history into the conversationHistory array
+                                conversationHistory = history;
+                                // Continue the chat
+                                continueChat();
+                            });
+                            const parentElement = document.getElementById('previous-chats'); // Replace with your actual parent element ID
+                            if (!parentElement) {
+                                throw new Error('Parent element not found');
+                            }
+                            parentElement.appendChild(card);
+                            console.log(`Card for ${chatFile.name} created successfully`);
+                        }
+                    } else {
+                        console.log(`No chat files found for ${subjectFolder.name}`);
+                    }
+                }
+            } catch (error) {
+                console.error(`Error fetching chat files: ${error}`);
+            }
+        }
+        async function createChatFile(subject, question) {
+            const response = await fetch('/create-chat-file', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ subject, question })
+            });
+            const data = await response.json();
+            return data;
+        }
+    </script>
+</body>
+
+</html>
