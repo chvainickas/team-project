@@ -1,6 +1,6 @@
 const axios = require("axios");
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-const API_KEY = "sk-proj-AsMf10CHSf3Rwb9FTBmjT3BlbkFJSaDwiClnfcEnMvmZBFVy"; // replace with your OpenAI API key
+const API_KEY = ""; // replace with your OpenAI API key
 
 async function getResponse(message) {
   try {

@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Функция для отправки запроса к GPT и получения комментария
   async function getResponse(message) {
     const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-    const API_KEY = "sk-proj-AsMf10CHSf3Rwb9FTBmjT3BlbkFJSaDwiClnfcEnMvmZBFVy"; // replace with your OpenAI API key
+    const API_KEY = ""; // replace with your OpenAI API key
 
     try {
       const response = await fetch(
